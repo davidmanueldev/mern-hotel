@@ -1,37 +1,35 @@
 import "./searchItem.css";
+import { Link } from "react-router-dom";
 
-const SearchItem = () => {
+const SearchItem = ({ item }) => {
   return (
     <div className="searchItem">
-      <img
-        src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
-        alt=""
-        className="siImg"
-      />
+      <img src={item.fotos[0]} alt="" className="siImg" />
       <div className="siDesc">
-        <h1 className="siTitle">Tower Street Apartments</h1>
-        <span className="siDistance">500m from center</span>
-        <span className="siTaxiOp">Free airport taxi</span>
-        <span className="siSubtitle">
-          Studio Apartment with Air conditioning
-        </span>
-        <span className="siFeatures">
-          Entire studio • 1 bathroom • 21m² 1 full bed
-        </span>
-        <span className="siCancelOp">Free cancellation </span>
+        <h1 className="siTitle">{item.nombre}</h1>
+        <span className="siDistance">{item.distancia}m desde la Ceja</span>
+        <span className="siTaxiOp">Taxi gratuito al aeropuerto</span>
+        <span className="siSubtitle">Apartamento con aire acondicionado</span>
+        <span className="siFeatures">{item.desc}</span>
+        <span className="siCancelOp">Cancelación Gratuita </span>
         <span className="siCancelOpSubtitle">
-          You can cancel later, so lock in this great price today!
+          Puede cancelarlo más tarde, así que asegúrese hoy mismo este magnífico
+          precio.
         </span>
       </div>
       <div className="siDetails">
-        <div className="siRating">
-          <span>Excellent</span>
-          <button>8.9</button>
-        </div>
+        {item.calificacion && (
+          <div className="siRating">
+            <span>Excelente</span>
+            <button>{item.calificacion}</button>
+          </div>
+        )}
         <div className="siDetailTexts">
-          <span className="siPrice">$112</span>
-          <span className="siTaxOp">Includes taxes and fees</span>
-          <button className="siCheckButton">See availability</button>
+          <span className="siPrice">Bs.{item.precioMasBajo}</span>
+          <span className="siTaxOp">Impuestos incluidos</span>
+          <Link to={`/hotels/${item._id}`}>
+            <button className="siCheckButton">Ver disponibilidad</button>
+          </Link>
         </div>
       </div>
     </div>
