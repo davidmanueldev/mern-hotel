@@ -48,7 +48,7 @@ export const getHotels = async (req, res, next) => {
   try {
     const hotels = await Hotel.find({
       ...otros,
-      precioMasBajo: { $gte: min || 1, $lte: max || 999 }, // Esto originalmente era $gt | y $lt 
+      precioMasBajo: { $gte: min || 1, $lte: max || 999 }, // Esto originalmente era $gt | y $lt
     }).limit(req.query.limit);
     res.status(200).json(hotels);
   } catch (err) {
@@ -97,6 +97,20 @@ export const countByType = async (req, res, next) => {
       { type: "villas", count: villaCount },
       { type: "cabañas", count: cabinCount },
     ]);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getHotelRooms = async (req, res, next) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    const list = await Promise.all(
+      hotel.habitaciones.map((room) => {
+        return Room.findById(room);
+      })
+    );
+    res.status(200).json(list);
   } catch (err) {
     next(err);
   }
